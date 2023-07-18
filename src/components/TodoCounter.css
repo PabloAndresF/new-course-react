@@ -2,7 +2,7 @@ h1 {
   font-size: 24px;
   text-align: right;
   margin: 0;
-  padding: 48px;
+  padding: 48px 170px;
   font-weight: bolder;
   font-style: italic;
   color: rgb(5, 156, 156);
@@ -34,19 +34,17 @@ body {
 }
 
 .through {
-  text-decoration: line-through red;
+  text-decoration: line-through red 2px;
 }
 
 button {
   background-color: black;
   color: aquamarine;
   border-radius: 100%;
-  width: 20%;
-  height: 20%;
-  margin-left: 40%;
+  margin-left: 45%;
 }
 input {
-  width: 500px;
+  width: 600px;
   height: 40px;
   background-color: black;
   color: aquamarine;

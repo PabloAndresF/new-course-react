@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { MyContext } from "./MyContex";
 const TodoSearch = () => {
-  const [searchValue, setSearchValue] = useState("");
-
+  const { searchValue, setSearchValue } = useContext(MyContext);
   return (
     <>
       <p>{searchValue}</p>
