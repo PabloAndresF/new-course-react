@@ -1,6 +1,6 @@
 import React from "react";
-import { ReactComponent as CheckSVG } from "./components/check.svg";
-import { ReactComponent as DeleteSVG } from "./components/delete.svg";
+import { ReactComponent as CheckSVG } from "../svg/check.svg";
+import { ReactComponent as DeleteSVG } from "../svg/delete.svg";
 
 const TodoIcon = ({ type, color, onClick }) => {
   const iconTypes = {

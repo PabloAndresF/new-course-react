@@ -1,29 +1,76 @@
-import { TodoCounter } from "./components/TodoCounter";
-import { TodoSearch } from "./components/TodoSearch";
-import { TodoList } from "./components/TodoList";
-import { CreateTodoButton } from "./components/CreateTodoButton";
-import { TodoItem } from "./components/TodoItem";
-import "./components/TodoCounter.css";
-import { MyContext } from "./components/MyContex";
+import { TodoCounter } from "./components/Counter/TodoCounter";
+import { TodoSearch } from "./components/Search/TodoSearch";
+import { TodoList } from "./components/ItemList/TodoList";
+import { CreateTodoButton } from "./components/CreateItem/CreateTodoButton";
+import { TodoItem } from "./components/Item/TodoItem";
+import "./components/Counter/TodoCounter.css";
+import { MyContext } from "./contexts/MyContex";
 import React, { useState } from "react";
+import { useLocalStorage } from "./hooks/useLocalStorage";
+import TodosLoading from "./skeletons/TodosLoading";
+import TodosError from "./skeletons/TodosError";
+import EmpyTodos from "./skeletons/EmpyTodos";
+import Modal from "./components/Modal/Modal.jsx";
+import TodoForm from "./components/Form/TodoForm";
 
-const defaultTodos = [
-  { text: "Cortar cebolla", completed: true },
-  { text: "Tomar el Curso de Intro a React.js", completed: false },
-  { text: "Llorar con  la Llorona", completed: false },
-  {
-    text: "Aprender 2 horas al dia algo nuevo en promragación",
-    completed: false,
-  },
-  {
-    text: "Probando totalTodos dinámicos",
-    completed: true,
-  },
-];
+// const defaultTodos = [
+//   { text: "Cortar cebolla", completed: true },
+//   { text: "Tomar el Curso de Intro a React.js", completed: false },
+//   { text: "Llorar con  la Llorona", completed: false },
+//   {
+//     text: "Aprender 2 horas al dia algo nuevo en promragación",
+//     completed: false,
+//   },
+//   {
+//     text: "Probando totalTodos dinámicos",
+//     completed: true,
+//   },
+// ];
+
+// localStorage.setItem("TODOS_V1", defaultTodos);
+// localStorage.removeItem("TODODS_V1");
+
+// function useLocalStorage(itemName, initialValue) {
+//   const localStorageItems = localStorage.getItem(itemName);
+//   let parsedItem;
+//   if (!localStorageItems) {
+//     localStorage.setItem(itemName, JSON.stringify(initialValue));
+//     parsedItem = initialValue;
+//   } else {
+//     parsedItem = JSON.parse(localStorageItems);
+//   }
+//   const [item, setItem] = useState(parsedItem);
+//   const saveItem = (newItem) => {
+//     localStorage.setItem(itemName, JSON.stringify(newItem));
+//     setItem(newItem);
+//   };
+
+//   return [item, saveItem];
+// }
 
 function App() {
+  // const localStorageTodos = localStorage.getItem("TODOS_V1");
+  // // let parsedTodos = JSON.parse(localStorageTodos);
+  // let parsedTodos;
+  // if (!localStorageTodos) {
+  //   localStorage.setItem("TODOS_V1", JSON.stringify([]));
+  //   parsedTodos = [];
+  // } else {
+  //   parsedTodos = JSON.parse(localStorageTodos);
+  // }
+  // const saveTodos = (newTodos) => {
+  //   localStorage.setItem("TODOS_V1", JSON.stringify(newTodos));
+  //   setTodos(newTodos);
+  // };
+  const {
+    item: todos,
+    saveItem: saveTodos,
+    loading,
+    error,
+  } = useLocalStorage("TODOS_V1", []);
   const [searchValue, setSearchValue] = useState("");
-  const [todos, setTodos] = useState(defaultTodos);
+  const [openModal, setOpenModal] = useState(false);
+
   const completedTodos = todos.filter((todo) => !!todo.completed).length;
   const totalTodos = todos.length;
   const searchTodos = todos.filter((todo) => {
@@ -31,16 +78,17 @@ function App() {
     const searchText = searchValue.toLocaleLowerCase();
     return todoText.includes(searchText);
   });
-  const search = {
-    searchValue,
-    setSearchValue,
-  };
 
+  const addTodo = (text) => {
+    const newTodos = [...todos];
+    newTodos.push({ text, completed: false });
+    saveTodos(newTodos);
+  };
   const completeTodo = (text) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex((todo) => todo.text === text);
     newTodos[todoIndex].completed = true;
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
 
   const DeleteTodo = (text) => {
@@ -49,16 +97,34 @@ function App() {
       return todo.text === text;
     });
     newTodos.splice(todoIndex, 1);
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
+  const handleModal = () => {
+    setOpenModal((prev) => !prev);
+  };
+  const search = {
+    searchValue,
+    setSearchValue,
+    completedTodos,
+    totalTodos,
+    openModal,
+    setOpenModal,
+    handleModal,
+    addTodo,
+  };
+
   return (
     <MyContext.Provider value={search}>
       <div className="App">
         <div>
-          <TodoCounter completed={completedTodos} total={totalTodos} />
+          <TodoCounter />
           <TodoSearch />
 
           <TodoList>
+            {loading && <TodosLoading />}
+            {error && <TodosError />}
+            {!loading && searchTodos.length === 0 && <EmpyTodos />}
+
             {searchTodos.map((todo) => (
               <TodoItem
                 key={todo.text}
@@ -70,6 +136,11 @@ function App() {
             ))}
           </TodoList>
 
+          {openModal && (
+            <Modal>
+              <TodoForm />
+            </Modal>
+          )}
           <CreateTodoButton />
         </div>
       </div>

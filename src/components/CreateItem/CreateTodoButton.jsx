@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { MyContext } from "../../contexts/MyContex";
 import "animate.css";
 const CreateTodoButton = () => {
-  const [state, setState] = useState(0);
+  const { handleModal } = useContext(MyContext);
+
   return (
     <>
-      <p>{state}</p>
       <button
-        onClick={() => {
-          setState(state + 1);
-        }}
+        onClick={handleModal}
         className="animate__animated animate__bounce animate__faster"
       >
         <svg

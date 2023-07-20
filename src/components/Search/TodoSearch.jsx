@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { MyContext } from "./MyContex";
+import { MyContext } from "../../contexts/MyContex";
 const TodoSearch = () => {
   const { searchValue, setSearchValue } = useContext(MyContext);
   return (
