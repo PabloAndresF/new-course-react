@@ -4,7 +4,7 @@ const TodoSearch = () => {
   const { searchValue, setSearchValue } = useContext(MyContext);
   return (
     <>
-      <p>{searchValue}</p>
+      {/* <p>{searchValue}</p> */}
       <input
         placeholder="cortar cebolla"
         value={searchValue}
