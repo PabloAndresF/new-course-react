@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/PabloAndresF/new-course-react/static/css/main.690ea9aa.css",
+    "main.js": "/PabloAndresF/new-course-react/static/js/main.e05a0d0b.js",
+    "static/media/image1.svg": "/PabloAndresF/new-course-react/static/media/image1.b598adbae62483298d35.svg",
+    "index.html": "/PabloAndresF/new-course-react/index.html",
+    "static/media/check.svg": "/PabloAndresF/new-course-react/static/media/check.6bf713c8080466f6dcbaad226effe428.svg",
+    "static/media/delete.svg": "/PabloAndresF/new-course-react/static/media/delete.f065909eaaae822a88bd42eb2f062dfb.svg",
+    "main.690ea9aa.css.map": "/PabloAndresF/new-course-react/static/css/main.690ea9aa.css.map",
+    "main.e05a0d0b.js.map": "/PabloAndresF/new-course-react/static/js/main.e05a0d0b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.690ea9aa.css",
+    "static/js/main.e05a0d0b.js"
+  ]
+}
